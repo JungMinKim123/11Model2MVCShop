@@ -15,20 +15,24 @@
   	<result property="price" column="price" jdbcType="NUMERIC"/>
   <!-- 	<result property="fileName" column="image_file" jdbcType="VARCHAR"/>  -->
   	<result property="regDate" column="reg_date" jdbcType="DATE"/>
+  	<result property="role" column="role" jdbcType="VARCHAR"/>
   </resultMap>
 
 <sql id="select-list">
   SELECT 
   t.tran_status_code, 
   p.prod_no, p.prod_name, p.prod_detail, 
-  p.manufacture_day, p.price,<!--  p.image_file ,--> p.reg_date
+  p.manufacture_day, p.price,<!--  p.image_file ,--> p.reg_date, p.role
   FROM product p, transaction t 
   	<where>
-  		<if test="(searchCondition == 1 and searchKeyword =='') or searchCondition != 1 ">
+  		<if test="(searchCondition == 1 and searchKeyword =='') or (searchCondition == null and searchKeyword !='') ">
   			p.prod_no = t.prod_no(+)
   		</if>
   		<if test="searchCondition == 1 and searchKeyword !='' ">
   			p.prod_no = t.prod_no(+) AND prod_name LIKE (#{searchKeyword}||'%')
+  		</if>
+  		<if test="searchCondition == 100 and searchKeyword !='' ">
+  			p.prod_no = t.prod_no(+) AND p.role = #{searchKeyword}
   		</if>
   	</where>
   ORDER BY p.prod_no
@@ -38,13 +42,13 @@
   INSERT
   INTO product 
   VALUES (seq_product_prod_no.NEXTVAL, #{prodName:VARCHAR}, #{prodDetail:VARCHAR},
-  		  #{manuDate:VARCHAR}, #{price:NUMERIC}, SYSDATE)
+  		  #{manuDate:VARCHAR}, #{price:NUMERIC}, SYSDATE, #{role:VARCHAR})
 </insert>
 
 <select id="findProduct" parameterType="int" resultMap="productSelectMap">
   SELECT
-  prod_no, prod_name, prod_detail, 
-  manufacture_day, price, <!--   image_file,--> reg_date
+  prod_no, prod_name, prod_detail ,
+  manufacture_day, price, <!--   image_file,--> reg_date, role
   FROM product
   WHERE prod_no = #{prodNo}
 </select>
@@ -63,6 +67,7 @@
     prod_detail = #{prodDetail:VARCHAR},
     manufacture_day = #{manuDate:VARCHAR},
     price = #{price:NUMERIC},
+    role = #{role:VARCHAR}
     <!--  image_file = #{fileName:VARCHAR}-->
   </set>
     WHERE prod_no= #{prodNo:NUMERIC}

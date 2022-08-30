@@ -72,7 +72,7 @@ public class ProductController {
 		String manuDate = product.getManuDate().replace("-", "");
 		product.setManuDate(manuDate);
 		System.out.println(manuDate);
-		
+
 		System.out.println(file);
 		System.out.println("fileName : " + product.getFileName());
 
@@ -80,7 +80,7 @@ public class ProductController {
 			System.out.println("이곳은 If문 안");
 			product.setFileName(null);
 			System.out.println(product.getFileName());
-		}else {
+		} else {
 			product.setFileName(file);
 		}
 
@@ -124,11 +124,9 @@ public class ProductController {
 
 		System.out.println("/product/updateProduct : POST");
 		System.out.println(multipartFile);
-/*
-		if (multipartFile.equals("")) {
-			prod.setFileName(null);
-		}
-//*/
+		/*
+		 * if (multipartFile.equals("")) { prod.setFileName(null); } //
+		 */
 		List<String> file = new ArrayList<String>();
 
 		for (int i = 0; i < multipartFile.size(); i++) {
@@ -139,17 +137,17 @@ public class ProductController {
 				file.add(multipartFile.get(i).getOriginalFilename());
 			}
 		}
-		
-		System.out.println("file에 들어온 값 : "+file);
-		
+
+		System.out.println("file에 들어온 값 : " + file);
+
 		if (file.isEmpty()) {
 			System.out.println("이곳은 If문 안");
 			prod.setFileName(null);
 			System.out.println(prod.getFileName());
-		}else {
+		} else {
 			prod.setFileName(file);
 		}
-		
+
 		System.out.println(prod.getFileName());
 		productService.updateProduct(prod);
 		productService.updateFile(prod);
@@ -174,7 +172,15 @@ public class ProductController {
 			throws Exception {
 
 		System.out.println("/product/listProduct : GET / POST");
-
+		
+	//	String keyword = URLEncoder.encode(searchKeyword);
+		
+	//	System.out.println("디코딩 된 Keywoed 값 : "+keyword);
+		
+		//search.setSearchKeyword(keyword);
+		
+		System.out.println("searchKeywoed 값 : "+search.getSearchKeyword());
+		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);
 		}

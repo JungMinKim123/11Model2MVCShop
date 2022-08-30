@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%-- 
 <%@page import="java.util.*"%>
 <%@page import="com.model2.mvc.common.Page"%>
@@ -20,16 +20,39 @@
 	
 %>
 --%>
-
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<title>상품 목록조회</title>
+<meta charset="EUC-KR">
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<!-- Bootstrap Dropdown Hover CSS -->
+<link href="/css/animate.min.css" rel="stylesheet">
+<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<!-- Bootstrap Dropdown Hover JS -->
+<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<style>
+body {
+	padding-top: 50px;
+}
+</style>
+
 <script type="text/javascript">
 
 	function fncGetUserList(currentPage) {
@@ -53,7 +76,7 @@
 			$("form").attr("method", "post").attr("action", "/product/listProduct?menu=${menu}").submit();
 		});
 		
-		$(".ct_list_pop td:nth-child(3)").bind("click", function() {
+		$("tbody td").bind("click", function() {
 		//alert($("#${prod.prodNo}").val());
 			if(${menu=='manage'}){
 				
@@ -132,271 +155,171 @@
 </script>
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
-	<div style="width: 98%; margin-left: 10px;">
+	<jsp:include page="/layout/toolbar.jsp" />
 
-			<c:if test="${ menu=='manage' }">
-		<form name="detailForm">
+	<div class="container">
+		<c:if test="${ menu=='manage' }">
 
-			<table width="100%" height="37" border="0" cellpadding="0"
-				cellspacing="0">
-				<tr>
-					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"
-						width="15" height="37" /></td>
-					<td background="/images/ct_ttl_img02.gif" width="100%"
-						style="padding-left: 10px;">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="93%" class="ct_ttl01">상품 관리</td>
-							</tr>
-						</table>
-					</td>
-					<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"
-						width="12" height="37" /></td>
-				</tr>
-			</table>
+			<div class="page-header text-info">
+				<h3>판매상품</h3>
+			</div>
 
+			<div class="row">
+				<div class="col-md-6 text-left">
+					<p class="text-primary">전체 ${ resultPage.totalCount } 건수, 현재 ${ resultPage.currentPage }
+						페이지</p>
+				</div>
+				<div class="col-md-6 text-right">
+					<form class="form-inline" name="detailForm">
+						<div class="form-group">
+							<select class="form-control" name="searchCondition">
+								<option value="1"
+									${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "
+							" }>상품명</option>
+								<option value="100"
+									${ ! empty search.searchCondition && search.searchCondition==100 ? "selected" : "
+							" }>카테고리</option>
+							</select>
+						</div>
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					
-					<td align="right"><select name="searchCondition"
-						class="ct_input_g" style="width: 80px">
-							<option value="1" ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "
-							" } >상품명</option>
-					</select> <input type="text" name="searchKeyword" value="${ search.searchKeyword }" class="ct_input_g"
-						style="width: 200px; height: 19px" /></td>
-							
-					<td align="right" width="70">
-						<table border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="17" height="23"><img
-									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-									style="padding-top: 3px;">
-									<!-- jQuery 변경 전 
-									<a href="javascript:fncGetUserList('1');">검색</a>
-									-->
-									검색
-									</td>
-								<td width="14" height="23"><img
-									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+						<div class="form-group">
+							<label class="sr-only" for="searchKeyword">검색어</label> <input
+								type="text" class="form-control" id="searchKeyword"
+								name="searchKeyword" placeholder="검색어"
+								value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
+						</div>
+						<button type="button" class="btn btn-default">검색</button>
+						<input type="hidden" id="currentPage" name="currentPage" value="1" />
+					</form>
+				</div>
+			</div>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th align="center">No</th>
+						<th align="left">상품명</th>
+						<th align="left">가격</th>
+						<th align="left">등록일</th>
+						<th align="left">현재상태</th>
+					</tr>
+				</thead>
 
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					<td colspan="11">전체 ${ resultPage.totalCount } 건수, 현재 ${ resultPage.currentPage } 페이지
-					</td>
-				</tr>
-				<tr>
-					<td class="ct_list_b" width="100">No</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">상품명</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">가격</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b">등록일</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b">현재상태</td>
-				</tr>
-				<tr>
-					<td colspan="11" bgcolor="808285" height="1"></td>
-				</tr>
-				
-				<c:set var="i" value="0"/>
-				<c:forEach var="prod" items="${list}">
-					<c:set var='i' value="${i+1}"/> 
-				<tr class="ct_list_pop" id="${prod.prodNo}">
-					<td align="center">${ i }</td>
-					<td></td>
-
-					<td align="left">
-					<!--<input type="hidden" name="prodNo" id="${prod.prodNo}"/>
-					<!-- jQuery 변경 전 
-					<a href="/product/updateProduct?prodNo=${ prod.prodNo }&menu=${ menu }">${ prod.prodName }</a>
-					-->
-					${ prod.prodName }
-					</td>
-
-					<td></td>
-					<td align="left">${ prod.price }</td>
-					<td></td>
-					<td align="left">${ prod.manuDate }</td>
-					<td></td>
-					<td align="left"><c:if test="${ ! empty prod.proTranCode }">
-									 <c:if test="${ fn:trim(prod.proTranCode)==1}">
-									 <!--  
+				<tbody>
+					<c:set var="i" value="0" />
+					<c:forEach var="prod" items="${list}">
+						<c:set var='i' value="${i+1}" />
+						<tr id="${prod.prodNo}">
+							<td align="center">${ i }</td>
+							<td align="left">${ prod.prodName }</td>
+							<td align="left">${ prod.price }</td>
+							<td align="left">${ prod.manuDate }</td>
+							<td align="left"><c:if test="${ ! empty prod.proTranCode }">
+									<c:if test="${ fn:trim(prod.proTranCode)==1}">
+										<!--  
 									 	구매완료 <a href="/purchase/updateTranCode?prodNo=${ prod.prodNo }&tranCode=2">배송하기</a>
 									 -->
-									 구매완료<input type= "button" name="respone" value="배송하기">
-									 </c:if>
-									 <c:if test="${ fn:trim(prod.proTranCode)==2}">
+									 구매완료<input type="button" name="respone" value="배송하기">
+									</c:if>
+									<c:if test="${ fn:trim(prod.proTranCode)==2}">
 									 	배송중
 									 </c:if>
-									 <c:if test="${ fn:trim(prod.proTranCode)==3}">
+									<c:if test="${ fn:trim(prod.proTranCode)==3}">
 									 	배송완료
 									 </c:if>
-									 </c:if>
-									 <c:if test="${ empty prod.proTranCode }">
+								</c:if> <c:if test="${ empty prod.proTranCode }">
 									 	판매중
-									 </c:if>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-				</tr>
-				</c:forEach>
+									 </c:if></td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					<td align="center">
-						<input type= "hidden" id = "currentPage" name="currentPage" value = "1"/>
-					
-					<jsp:include page="../common/pageNavigator.jsp"/>
-					
-					</td>
-				</tr>
-			</table>
-			<!--  페이지 Navigator 끝 -->
-
-		</form>
-		
+			<jsp:include page="../common/pageNavigator_new.jsp" />
 		</c:if>
+	</div>
+
+
+	<div class="container">
 		<c:if test="${ menu=='search'}">
-		<!-- 
-		<form name="detailForm" method="post">
-		 -->
-		<form name="detailForm">
 
-			<table width="100%" height="37" border="0" cellpadding="0"
-				cellspacing="0">
-				<tr>
-					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"
-						width="15" height="37" /></td>
-					<td background="/images/ct_ttl_img02.gif" width="100%"
-						style="padding-left: 10px;">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="93%" class="ct_ttl01">상품 목록조회</td>
-							</tr>
-						</table>
-					</td>
-					<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"
-						width="12" height="37" /></td>
-				</tr>
-			</table>
+			<div class="page-header text-info">
+				<h3>판매상품</h3>
+			</div>
+			<div class="row">
 
+				<div class="col-md-6 text-left">
+					<p class="text-primary">전체 ${ resultPage.totalCount } 건수, 현재 ${ resultPage.currentPage }
+						페이지</p>
+				</div>
+				<div class="col-md-6 text-right">
+					<form class="form-inline" name="detailForm">
+						<div class="form-group">
+							<select class="form-control" name="searchCondition">
+								<option value="1"
+									${ !empty search.searchCondition && search.searchCondition == 1 ? "selected" : "" }>상품명</option>
+								<option value="100"
+									${ ! empty search.searchCondition && search.searchCondition==100 ? "selected" : "
+							" }>카테고리</option>
+							</select>
+						</div>
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					<td align="right"><select name="searchCondition"
-						class="ct_input_g" style="width: 80px">
-							<option value="1" ${ !empty search.searchCondition && search.searchCondition == 1 ? "selected" : "" } >상품명</option>
-					</select> <input type="text" name="searchKeyword" value="${ search.searchKeyword }" class="ct_input_g"
-						style="width: 200px; height: 19px" /></td>
-					<td align="right" width="70">
-						<table border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="17" height="23"><img
-									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
-								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-									style="padding-top: 3px;">
-									<!-- jQuery 변경 전 
-									<a href="javascript:fncGetUserList('1');">검색</a>
-									-->
-									검색
-									</td>
-								<td width="14" height="23"><img
-									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+						<div class="form-group">
+							<label class="sr-only" for="searchKeyword">검색어</label> <input
+								type="text" class="form-control" id="searchKeyword"
+								name="searchKeyword" placeholder="검색어"
+								value="${! empty search.searchKeyword ? search.searchKeyword : '' }">
+						</div>
 
+						<button type="button" class="btn btn-default">검색</button>
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					<td colspan="11">전체 ${ resultPage.totalCount } 건수, 현재 ${ resultPage.currentPage } 페이지
-					</td>
-				</tr>
-				<tr>
-					<td class="ct_list_b" width="100">No</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">상품명</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b" width="150">가격</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b">등록일</td>
-					<td class="ct_line02"></td>
-					<td class="ct_list_b">현재상태</td>
-				</tr>
-				<tr>
-					<td colspan="11" bgcolor="808285" height="1"></td>
-				</tr>
-				<c:set var="i" value="0" />
-				<c:forEach var="prod" items="${list}">
-				<c:set var="i" value="${ i+1 }" />
-				<tr class="ct_list_pop" id="${ prod.prodNo }">
-					<td align="center">${ i }</td>
-					<td></td>
+						<input type="hidden" id="currentPage" name="currentPage" value="1" />
+					</form>
+				</div>
+			</div>
+			<table class="table table-hover table-striped">
 
-					<td align="left">
-					<!-- jQuery 변경 전 
-					<a href="/product/getProduct?prodNo=${ prod.prodNo }&menu=${ menu }">${ prod.prodName }</a></td>
-					-->
-					${ prod.prodName }
-					</td>
-					<td></td>
-					<td align="left">${ prod.price }</td>
-					<td></td>
-					<td align="left">${ prod.manuDate }</td>
-					<td></td>
-					<td align="left"><c:if test="${ !empty prod.proTranCode }">
-									 <c:if test="${ fn:trim(prod.proTranCode)==3 }">
+				<thead>
+					<tr>
+						<th class="center">No</th>
+						<th class="left">상품명</th>
+						<th class="left">가격</th>
+						<th class="left">등록일</th>
+						<th class="left">현재상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:set var="i" value="0" />
+					<c:forEach var="prod" items="${list}">
+						<c:set var="i" value="${ i+1 }" />
+						<tr id="${ prod.prodNo }">
+							<td align="center">${ i }</td>
+
+							<td align="left">${ prod.prodName }</td>
+							<td align="left">${ prod.price }</td>
+							<td align="left">${ prod.manuDate }</td>
+							<td align="left"><c:if test="${ !empty prod.proTranCode }">
+									<c:if test="${ fn:trim(prod.proTranCode)==3 }">
 											재고없음
 									</c:if>
-									 <c:if test="${ fn:trim(prod.proTranCode) !=3 }">
+									<c:if test="${ fn:trim(prod.proTranCode) !=3 }">
 										재고없음
 									</c:if>
-									</c:if>
-									<c:if test="${ empty prod.proTranCode }">
+								</c:if> <c:if test="${ empty prod.proTranCode }">
 										판매중
-									</c:if>
-					</td>
-				</tr>
-				<tr>
-				<td id="${ prod.prodNo }" title="상품정보" colspan="11" bgcolor="D6D7D6" height="1"></td>
-				</tr>
-				</c:forEach>
+									</c:if></td>
+						</tr>
+						<!-- 
+						<tr>
+							<td id="${ prod.prodNo }" title="상품정보" colspan="11"
+								bgcolor="D6D7D6" height="1"></td>
+						</tr>
+						 -->
+					</c:forEach>
+				</tbody>
 			</table>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
-					<td align="center">
-						<input type="hidden" id="currentPage" name="currentPage" value="1"/>
-						<jsp:include page="../common/pageNavigator.jsp" />
-						
-					</td>
-				</tr>
-			</table>
-			<!--  페이지 Navigator 끝 -->
-			</form>
-			</c:if>
-		
+			<jsp:include page="../common/pageNavigator_new.jsp" />
+		</c:if>
 	</div>
 
 </body>
