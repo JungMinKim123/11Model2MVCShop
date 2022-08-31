@@ -8,7 +8,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.model2.mvc.service.domain.User;
 
-
 /*
  * FileName : LogonCheckInterceptor.java
  *  ㅇ Controller 호출전 interceptor 를 통해 선처리/후처리/완료처리를 수행
@@ -22,66 +21,105 @@ import com.model2.mvc.service.domain.User;
  */
 public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 
-	///Field
-	
-	///Constructor
-	public LogonCheckInterceptor(){
-		System.out.println("\nCommon :: "+this.getClass()+"\n");		
-	}
-	
-	///Method
-	public boolean preHandle(	HttpServletRequest request,
-														HttpServletResponse response, 
-														Object handler) throws Exception {
-		
-		System.out.println("\n[ LogonCheckInterceptor start........]");
-		
-		//==> 로그인 유무확인
-		HttpSession session = request.getSession(true);
-		User user = (User)session.getAttribute("user");
+	/// Field
 
-		//==> 로그인한 회원이라면...
-		if(   user != null   )  {
-			//==> 로그인 상태에서 접근 불가 URI
+	/// Constructor
+	public LogonCheckInterceptor() {
+		System.out.println("\nCommon :: " + this.getClass() + "\n");
+	}
+
+	/// Method
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+
+		System.out.println("\n[ LogonCheckInterceptor start........]");
+
+		// ==> 로그인 유무확인
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("user");
+
+		// ==> 로그인한 회원이라면...
+		if (user != null) {
+			// ==> 로그인 상태에서 접근 불가 URI
 			String uri = request.getRequestURI();
-			
-			/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
-					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-			
-			if(		uri.indexOf("addUser") != -1 ||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
-				request.getRequestDispatcher("/index.jsp").forward(request, response);
+
+			boolean result = false;
+
+			if (uri.indexOf("addUser") != -1 || uri.indexOf("login") != -1 || uri.indexOf("checkDuplication") != -1) {
+				request.getRequestDispatcher("/main.jsp").forward(request, response);
 				System.out.println("[ 로그인 상태.. 로그인 후 불필요 한 요구.... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
-				return false;
+				result = false;
 			}
-			
-			System.out.println("[ 로그인 상태 ... ]");
-			System.out.println("[ LogonCheckInterceptor end........]\n");
-			return true;
-		}else{ //==> 미 로그인한 화원이라면...
-			//==> 로그인 시도 중.....
+
+			if (user.getRole().equals("admin")) {
+
+				System.out.println("[admin 로그인 상태 ... ]");
+				System.out.println("[ LogonCheckInterceptor end........]\n");
+				result = true;
+
+			}
+
+			if (user.getRole().equals("user")) {
+
+				if (uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1
+						|| uri.indexOf("addPurchase") != -1 || uri.indexOf("addPurchaseReadView") != -1
+						|| uri.indexOf("getUse") != -1 || uri.indexOf("updateUser") != -1
+						|| uri.indexOf("listPurchase") != -1 || uri.indexOf("logout") != -1) {
+
+					System.out.println("[Uesr 로그인 상태 ... ]");
+					System.out.println("[ LogonCheckInterceptor end........]\n");
+					result = true;
+
+				}
+
+				if ( uri.indexOf("addProduct") != -1 || uri.indexOf("updateProduct") != -1 ) {
+					
+					request.getRequestDispatcher("/main.jsp").forward(request, response);
+					System.out.println("[Uesr 로그인 상태 ... ]");
+					System.out.println("[ LogonCheckInterceptor end........]\n");
+					result = false;
+					
+				}
+			}
+
+			return result;
+
+		} else { // ==> 미 로그인한 화원이라면...
+					// ==> 로그인 시도 중.....
 			String uri = request.getRequestURI();
-			
-			/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
-					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-			if(		uri.indexOf("addUser") != -1 ||	uri.indexOf("login") != -1 		|| 
-					uri.indexOf("checkDuplication") != -1 ){
+
+		//	boolean result = false;
+
+			if (uri.indexOf("addUser") != -1 || uri.indexOf("login") != -1 || uri.indexOf("checkDuplication") != -1) {
 				System.out.println("[ 로그 시도 상태 .... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return true;
 			}
+
+			if (uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1) {
+
+				System.out.println("[ 비회원 접근 가능 ... ]");
+				System.out.println("[ LogonCheckInterceptor end........]\n");
+				return true;
+
+			}
 			
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-			System.out.println("[ 로그인 이전 ... ]");
+			if(uri.indexOf("addPurchase") != -1 || uri.indexOf("addPurchaseReadView") != -1
+						|| uri.indexOf("getUse") != -1 || uri.indexOf("updateUser") != -1
+						|| uri.indexOf("listPurchase") != -1  
+						|| uri.indexOf("addProduct") != -1 || uri.indexOf("updateProduct") != -1) {
+			request.getRequestDispatcher("/main.jsp").forward(request, response);
+			System.out.println("[ 비회원 접근 제한 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return false;
+			}
+			
+			request.getRequestDispatcher("/main.jsp").forward(request, response);
+			System.out.println("[ 로그아웃 ... ]");
+			System.out.println("[ LogonCheckInterceptor end........]\n");
+			return false;
+			
 		}
 	}
-}//end of class
+}// end of class

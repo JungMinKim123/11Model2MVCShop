@@ -34,6 +34,17 @@
 body {
 	padding-top: 70px;
 }
+
+img.displayed {
+	display: block;
+	margin-left: auto;
+	margin-right: auto
+}
+
+$(".carousel").carousel({
+    interval: 3000
+}); 
+
 </style>
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -59,14 +70,17 @@ body {
 
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<img src="/images/ÀÏ°ýÆíÁý_°¡À»¸ÂÀÌ.jpg/#777:#555/" alt="First slide">
+				<div class="item active" >
+					<img class="img-responsive displayed"
+						src="/images/ÀÏ°ýÆíÁý_°¡À»¸ÂÀÌ.jpg/#777:#555/" alt="First slide">
 				</div>
-				<div class="item">
-					<img src="/images/ÀÏ°ýÆíÁý_±¤°í»çÁø.jpg/#777:#555/" alt="Second slide">
+				<div class="item" >
+					<img class="img-responsive displayed"
+						src="/images/ÀÏ°ýÆíÁý_±¤°í»çÁø.jpg/#777:#555/" alt="Second slide">
 				</div>
-				<div class="item">
-					<img src="/images/ÀÏ°ýÆíÁý_ÀÌº¥Æ®±¤°í.jpg/#777:#555/" alt="Third slide">
+				<div class="item" >
+					<img class="img-responsive displayed"
+						src="/images/ÀÏ°ýÆíÁý_ÀÌº¥Æ®±¤°í.jpg/#777:#555/" alt="Third slide">
 				</div>
 			</div>
 

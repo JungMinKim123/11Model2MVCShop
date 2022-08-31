@@ -68,6 +68,7 @@ public class ProductServiceimpl implements ProductService{
 	}
 	
 	public Map<String, Object> getProductList(Search search) throws Exception{
+		
 		List<Product> list = productDao.getProductList(search);
 		int totalCount = productDao.getTotalCount(search);
 		

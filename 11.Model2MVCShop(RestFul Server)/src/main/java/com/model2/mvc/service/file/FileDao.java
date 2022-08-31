@@ -12,4 +12,6 @@ public interface FileDao {
 	
 	public  void updateFile(Product product) throws Exception ;
 	
+	//public  List<String> getListFile(String string) throws Exception ;
+	
 }

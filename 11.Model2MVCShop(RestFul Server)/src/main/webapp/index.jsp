@@ -46,8 +46,6 @@ body {
 
 <body>
 	<jsp:include page="/layout/toolbar.jsp" />
-
-	<jsp:include page="/main.jsp" />
 	
 </body>
 

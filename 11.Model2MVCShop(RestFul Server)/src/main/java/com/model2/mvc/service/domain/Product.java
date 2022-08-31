@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Product {
 	
+	private String firstFileName;
 	private List<String> fileName;
 	private String manuDate;
 	private int price;
@@ -25,6 +26,15 @@ public class Product {
 	public void setProTranCode(String proTranCode) {
 		this.proTranCode = proTranCode;
 	}
+
+	public String getFirstfileName() {
+		return firstFileName;
+	}
+	
+	public void setFirstfileName(String firstFileName) {
+		this.firstFileName = firstFileName;
+	}
+	
 	public List<String> getFileName() {
 		return fileName;
 	}
@@ -78,9 +88,9 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
-				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
-				+ ", proTranCode=" + proTranCode + ", role=" + role + "]";
+		return "Product [firstFileName=" + firstFileName + ", fileName=" + fileName + ", manuDate=" + manuDate
+				+ ", price=" + price + ", prodDetail=" + prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo
+				+ ", regDate=" + regDate + ", proTranCode=" + proTranCode + ", role=" + role + "]";
 	}
 
 }

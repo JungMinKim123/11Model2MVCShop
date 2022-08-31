@@ -26,7 +26,7 @@ public class FileDaoImpl implements FileDao {
 	@Override
 	public void addFile(Product product) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.insert("FileMapper.insertFile",product.getFileName());
+		sqlSession.insert("FileMapper.insertFile",product);
 	}
 
 	@Override
@@ -34,6 +34,12 @@ public class FileDaoImpl implements FileDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("FileMapper.findFile",product);
 	}
+
+	//@Override
+	//public List<String> getListFile(String string) throws Exception {
+		// TODO Auto-generated method stub
+	//	return sqlSession.selectList("FileMapper.getListFile", string);
+	//}
 
 	@Override
 	public void updateFile(Product product) throws Exception {

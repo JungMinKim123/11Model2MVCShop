@@ -53,7 +53,7 @@ public class ProductController {
 
 //	@RequestMapping("/addProduct.do")
 	@RequestMapping(value = "addProduct", method = RequestMethod.POST)
-	public String addProduct(@ModelAttribute("ProdVO") Product product,
+	public String addProduct(@ModelAttribute("ProdVO") Product product, Model model,
 			@RequestParam("fileUploadName") List<MultipartFile> multipartFile) throws Exception {
 
 		System.out.println("/product/addProduct : POST");
@@ -83,9 +83,11 @@ public class ProductController {
 		} else {
 			product.setFileName(file);
 		}
-
+		
 		productService.addProduct(product);
 		productService.addFile(product);
+		
+		model.addAttribute("list",file);
 
 		return "forward:/product/readProductView.jsp";
 	}
@@ -119,7 +121,7 @@ public class ProductController {
 
 //	@RequestMapping("/updateProduct.do")
 	@RequestMapping(value = "updateProduct", method = RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("update") Product prod,
+	public String updateProduct(@ModelAttribute("update") Product prod, Model model,
 			@RequestParam("fileUploadName") List<MultipartFile> multipartFile) throws Exception {
 
 		System.out.println("/product/updateProduct : POST");
@@ -151,6 +153,8 @@ public class ProductController {
 		System.out.println(prod.getFileName());
 		productService.updateProduct(prod);
 		productService.updateFile(prod);
+		
+		model.addAttribute("list",file);
 
 		return "forward:/product/updateReadProduct.jsp";
 	}
@@ -172,14 +176,6 @@ public class ProductController {
 			throws Exception {
 
 		System.out.println("/product/listProduct : GET / POST");
-		
-	//	String keyword = URLEncoder.encode(searchKeyword);
-		
-	//	System.out.println("디코딩 된 Keywoed 값 : "+keyword);
-		
-		//search.setSearchKeyword(keyword);
-		
-		System.out.println("searchKeywoed 값 : "+search.getSearchKeyword());
 		
 		if (search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);

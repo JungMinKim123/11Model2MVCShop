@@ -73,7 +73,7 @@
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
         <div class="container">
-        	<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
+        	<a class="navbar-brand" href="/main.jsp">Model2 MVC Shop</a>
    		</div>
    	</div>
    	<!-- ToolBar End /////////////////////////////////////-->	
@@ -116,7 +116,7 @@
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
 					    </div>
 					  </div>
-			
+		
 					</form>
 			   	 </div>
 			

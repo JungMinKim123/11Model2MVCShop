@@ -123,7 +123,7 @@ public class UserController {
 			session.setAttribute("user", dbUser);
 		}
 		
-		return "redirect:/index.jsp";
+		return "redirect:/main.jsp";
 	}
 		
 	
@@ -134,7 +134,9 @@ public class UserController {
 		
 		session.invalidate();
 		
-		return "redirect:/index.jsp";
+	//System.out.println("ÇöÀç User °ª : "+session.getAttribute("user"));
+		
+		return "redirect:/main.jsp";
 	}
 	
 	

@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=euc-kr"%>
 
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
+<meta charset="EUC-KR">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
@@ -67,11 +69,30 @@ body {
 
 	}
 
+	$.datepicker.setDefaults({
+		dateFormat : 'yymmdd',
+		prevText : '이전 달',
+		nextText : '다음 달',
+		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월',
+				'10월', '11월', '12월' ],
+		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월',
+				'9월', '10월', '11월', '12월' ],
+		dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+		dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+		dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+		showMonthAfterYear : true,
+		yearSuffix : '년'
+	});
+
+	$(function() {
+		$("#manuDate").datepicker();
+	});
+	
 	$(function() {
 
 		$($("button")[1]).on("click", function() {
-			alert("등록");
-			alert($("#prodDetail").val());
+		//	alert("등록");
+			//alert($("#prodDetail").val());
 			fncAddProduct();
 		});
 
@@ -81,7 +102,7 @@ body {
 	$(function() {
 
 		$($("button")[2]).on("click", function() {
-			alert("취소");
+		//	alert("취소");
 			$("form")[0].reset();
 		});
 	});
@@ -92,7 +113,6 @@ body {
 	<jsp:include page="/layout/toolbar.jsp" />
 	<form class="form-horizontal">
 		<div class="container">
-			<input type="hidden" name="prodNo" value="${ UpdateProdVO.prodNo }" />
 			<div class="page-header text-info">
 				<h3>상품등록</h3>
 			</div>
@@ -144,8 +164,8 @@ body {
 					<strong>상품이미지</strong>
 				</div>
 				<div class="col-sm-4">
-					<input multiple="multiple" type="file"
-						name="fileUploadName" value="/images/uploadFiles/.." />
+					<input multiple="multiple" type="file" name="fileUploadName"
+						value="/images/uploadFiles/.." />
 				</div>
 			</div>
 			<hr />

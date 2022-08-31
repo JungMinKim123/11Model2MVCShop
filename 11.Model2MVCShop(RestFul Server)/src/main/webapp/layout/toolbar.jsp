@@ -10,7 +10,7 @@
 
 	<div class="container">
 
-		<a class="navbar-brand" href="/index.jsp">Model2
+		<a class="navbar-brand" href="/main.jsp">Model2
 			MVC Shop</a>
 
 		<!-- toolBar Button Start //////////////////////// -->
