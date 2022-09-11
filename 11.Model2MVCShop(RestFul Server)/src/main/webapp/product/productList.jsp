@@ -53,109 +53,171 @@ body {
 }
 
 img {
-  width: 300px;
-  height: auto;
-  object-fit: cover;
+	width: 300px;
+	height: auto;
+	overflow: cover;
 }
 
+.caption>h3 {
+	font-size: 1.4em;
+}
 </style>
 
 <script type="text/javascript">
-
 	function fncGetUserList(currentPage) {
-		
+
 		$("#currentPage").val(currentPage);
-		$("form").attr("method", "post").attr("action", "/product/listProduct?menu=${menu}").submit();
+		//$("form").attr("method", "post").attr("action",
+		//		"/product/listProduct?menu=${menu}").submit();
 		//$("form").attr("action", "/product/listProduct?menu=${menu}").submit();
 	}
-	
+
 	$(function() {
-		
-		$("input[name='searchKeyword']").bind("keydown", function(key) {
-			console.log($("input[name='searchKeyword']").val());
-			if(key.keyCode==13){
-			//console.log("asdf");
-				$("form").attr("method", "post").attr("action", "/product/listProduct?menu=${menu}").submit();
-			}
-		}); 
-		
-		$("td.ct_btn01:contains('검색')").bind("click", function() {
-			$("form").attr("method", "post").attr("action", "/product/listProduct?menu=${menu}").submit();
-		});
-		
-		$("tbody td").bind("click", function() {
-		//alert($("#${prod.prodNo}").val());
-			if(${menu=='manage'}){
-				
-				self.location = "/product/updateProduct?prodNo="+$(this).parent().attr("id").trim()+"&menu=${ menu }";
-				
-			}
-			if(${menu=='search'}){
-				
-				self.location = "/product/getProduct?prodNo="+$(this).parent().attr("id").trim()+"&menu=${ menu }";
-				
-				//console.log($(this).parent().attr("id").trim());
-				/*
-				var prodNo = $(this).parent().attr("id").trim();
-				
-				$.getJSON("/product/json/getProduct/"+prodNo,
-						
-						function(JSONData, status) {
-					
-							//console.log("updateProduct = ? : "+JSONData.prodDetail);
-							
-							var displayValue = "<h3 id='dialog' title='Basic dialog'>"
-													+"상품번호 : "+JSONData.prodNo+"<br/>"
-													+"상품명 : "+JSONData.prodName+"<br/>"
-													//+"상품이미지 : "+JSONData.fileName+"<br/>"
-													+"상품상세정보 : "+JSONData.prodDetail+"<br/>"
-													+"제조일자 : "+JSONData.manuDate+"<br/>"
-													+"가격 : "+JSONData.price+"<br/>"
-													//+"등록일자 : "+JSONData.regDate+"<br/>"
-													+"</h3>";
-							$("h3").remove();
-							
-							//$("td[id='"+prodNo+"']").html(displayValue);
-							//$("td[id='"+prodNo+"']").accordion();
-							$($("td[id='"+prodNo+"']").html(displayValue)).dialog();
-							//$(function () {
-							//$( $("td[id='"+prodNo+"']").html(displayValue)).dialog({
-							//	autoOpen: false,	
-							//});
-						//		$("h3[id='dialog']").dialog();
-						
-						//	});
+
+		$("input[name='searchKeyword']").bind(
+				"keydown",
+				function(key) {
+					console.log($("input[name='searchKeyword']").val());
+					if (key.keyCode == 13) {
+						//console.log("asdf");
+						$("form").attr("method", "post").attr("action",
+								"/product/listProduct?menu=${menu}").submit();
 					}
-				);
-				//*/
-			}
+				});
+
+		$("td.ct_btn01:contains('검색')").bind(
+				"click",
+				function() {
+					$("form").attr("method", "post").attr("action",
+							"/product/listProduct?menu=${menu}").submit();
+				});
+
+		$("a:contains('상품수정')").bind(
+				"click",
+				function() {
+
+					//alert($("${prod.prodNo}").val());
+
+					self.location = "/product/updateProduct?prodNo="
+							+ $(this).parent().parent().parent().parent()
+									.parent().attr("id").trim();
+				});
+
+		$("a:contains('상품보기')").bind(
+				"click",
+				function() {
+					self.location = "/product/getProduct?prodNo="
+							+ $(this).parent().parent().parent().parent()
+									.parent().attr("id").trim();
+
+					//console.log($(this).parent().attr("id").trim());
+					/*
+					var prodNo = $(this).parent().parent().parent().parent().parent().attr("id").trim();
+					
+					$.getJSON("/product/json/getProduct/"+prodNo,
+							function(JSONData, status) {
+									alert("sadf");
+						
+								//console.log("updateProduct = ? : "+JSONData.prodDetail);
+								
+								var displayValue = "<h3 id='dialog' title='Basic dialog'>"
+														+"상품번호 : "+JSONData.prodNo+"<br/>"
+														+"상품명 : "+JSONData.prodName+"<br/>"
+														//+"상품이미지 : "+JSONData.fileName+"<br/>"
+														+"상품상세정보 : "+JSONData.prodDetail+"<br/>"
+														+"제조일자 : "+JSONData.manuDate+"<br/>"
+														+"가격 : "+JSONData.price+"<br/>"
+														//+"등록일자 : "+JSONData.regDate+"<br/>"
+														+"</h3>";
+								
+								//$("td[id='"+prodNo+"']").html(displayValue);
+								//$("td[id='"+prodNo+"']").accordion();
+								$($("a:contains('상품보기')").html(displayValue)).dialog();
+								//$(function () {
+								//$( $("td[id='"+prodNo+"']").html(displayValue)).dialog({
+								//	autoOpen: false,	
+								//});
+							//		$("h3[id='dialog']").dialog();
+							
+							//	});
+						}
+					);
+					//*/
+				});
+
+		$("input[name='respone']").bind(
+				"click",
+				function() {
+					//console.log('sadfsaf');
+					self.location = "/purchase/updateTranCode?prodNo="
+							+ $(this).parent().parent().attr("id")
+							+ "&tranCode=2";
+				});
+	});
+	///*
+
+	$(function() {
+
+		$("#searchKeyword").bind("keyup", function() {
+
+			console.log($("#searchKeyword").val());
+			console.log($("input[name='searchKeyword']").val());
+
+			var keyword = $("#searchKeyword").val();
+
+			$.getJSON("/product/json/getProdName/"+keyword,
+			
+					
+			function(JSONData, status) {
+
+				console.log("JSONData : " + JSONData);
+
+				//var displayValue = JSONData;
+
+				$("input[name='searchKeyword']").autocomplete({source : JSONData});
 			});
-		
-		$("input[name='respone']").bind("click", function() {
-				//console.log('sadfsaf');
-				self.location = "/purchase/updateTranCode?prodNo="+$(this).parent().parent().attr("id")+"&tranCode=2";
 		});
 	});
-///*
-
+	//*/
+	///*
 	$(function() {
-		
-		$("input[name='searchKeyword']").bind("keyup", function() {
-			
-		    	//console.log($("input[name='searchKeyword']").val());
-		    	
-		    	var keyword =  $("input[name='searchKeyword']").val();
-		    	
-		    	$.getJSON("/product/json/getProdName/"+keyword,
-		    			
-		    		function(JSONData, status) {
-						
-		    			console.log("JSONData : "+JSONData);
+		//alert("생성");
+		$.ajax("/product/json/listProduct", {
+			method : "POST",
+			data : JSON.stringify({
+				currentPage : fncGetUserList(),
+				searchCondition : $("select[name='searchCondition']").val(),
+				searchKeyword : $("#searchKeyword").val()
+			}),
+			dataType : "json",
+			headers : {
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function(JSONData, status) {
+				//alert("function 시작");
 
-		    			//var displayValue = JSONData;
-						
-		    			$("input[name='searchKeyword']").autocomplete({ source : JSONData});
-		    	});
+				//var displayValue = JSONData.list.length;
+				for (var i = 0; i < JSONData.list.length; i++) {
+
+					var prodName = JSONData.list[i].prodName;
+					var firstFileName = JSONData.list[i].firstfileName;
+					var price = JSONData.list[i].price;
+					
+					console.log(prodName);
+					console.log(firstFileName);
+					console.log(price);
+					
+					$($(".top")[i]).html("<img class="+"'img-fluid'"+
+						"src='/images/uploadFiles/"+firstFileName+"'/>");
+					$($(".prodName")[i]).html(prodName);
+					$($(".price")[i]).text("가격 : "+price);
+
+					console.log($($(".top")[i]).html());
+					console.log($($(".prodName")[i]).html());
+					console.log($($(".price")[i]).text());
+				}
+			}
 		});
 	});
 	//*/
@@ -200,15 +262,23 @@ img {
 				<c:set var="i" value="0" />
 				<c:forEach var="prod" items="${list}">
 					<c:set var='i' value="${i+1}" />
+					<!-- <div class="col-md-6 col-md-4" id="${prod.prodNo}"> -->
 					<div class="col-md-6 col-md-4" id="${prod.prodNo}">
-						<div class="thumbnail">
-							<img class="img-fluid" src="/images/uploadFiles/${prod.firstfileName}" />
-							<div class="caption">
-								<h3>${ prod.prodName }</h3>
-								<p>가격 : ${ prod.price }</p>
-								<p>
-									<a href="#" class="btn btn-primary text-center" role="button">상품수정</a>
-								</p>
+						<div class="thumbnail" style="">
+							<div class="top" style="width: 50%; height: 300px;">
+								<!--
+								<img class="img-fluid"
+									src="/images/uploadFiles/${prod.firstfileName}" />
+								 	src="/images/uploadFiles/${prod.firstfileName}" /> -->
+							</div>
+							<div class="bottom" style="width: 50%">
+								<div class="caption" style="width: 300px">
+									<h3 class="prodName"></h3>
+									<p class="price"></p>
+									<p>
+										<a href="#" class="btn btn-primary text-center" role="button">상품수정</a>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -256,18 +326,21 @@ img {
 				<c:set var="i" value="0" />
 				<c:forEach var="prod" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
+				<!-- 	<div class="col-md-6 col-md-4" id="${prod.prodNo}">  -->
 					<div class="col-md-6 col-md-4" id="${prod.prodNo}">
 						<div class="thumbnail">
-							<img class="img-fluid" src="/images/uploadFiles/${prod.firstfileName}" />
-							<div class="caption">
-								<h3>${ prod.prodName } </h3>
-								<p>가격 : ${ prod.price } </p>
-								<br/>
-								<p>
-									<a href="#" class="btn btn-primary" role="button">상품보기</a> <a
-										href="#" class="btn btn-default" role="button">담기</a>
-								</p>
-										<!-- 	
+							<div class="top" style="width: 50%; height: 300px;">
+							</div>
+							<div class="bottom" style="width: 50%">
+								<div class="caption">
+									<h3 class="prodName"></h3>
+									<p class="price"></p>
+									<br />
+									<p>
+										<a href="#" class="btn btn-primary" role="button">상품보기</a> <a
+											href="#" class="btn btn-default" role="button">담기</a>
+									</p>
+									<!-- 	
 									<c:if test="${ !empty prod.proTranCode }">
 										<c:if test="${ fn:trim(prod.proTranCode)==3 }">
 											품절
@@ -277,6 +350,7 @@ img {
 										판매중
 									</c:if>
 									 -->
+								</div>
 							</div>
 						</div>
 					</div>

@@ -42,7 +42,7 @@
   INSERT
   INTO product 
   VALUES (seq_product_prod_no.NEXTVAL, #{prodName:VARCHAR}, #{prodDetail:VARCHAR},
-  		  #{manuDate:VARCHAR}, #{price:NUMERIC}, SYSDATE, #{role:VARCHAR})
+  		  #{manuDate:VARCHAR}, #{price:NUMERIC}, #{firstFileName:VARCHAR}, SYSDATE, #{role:VARCHAR})
 </insert>
 
 <select id="findProduct" parameterType="int" resultMap="productSelectMap">
@@ -67,7 +67,7 @@
     prod_detail = #{prodDetail:VARCHAR},
     manufacture_day = #{manuDate:VARCHAR},
     price = #{price:NUMERIC},
-    image_file = #{firstFileName:VARCHAR}
+    image_file = #{firstFileName:VARCHAR},
     role = #{role:VARCHAR}
   </set>
     WHERE prod_no= #{prodNo:NUMERIC}

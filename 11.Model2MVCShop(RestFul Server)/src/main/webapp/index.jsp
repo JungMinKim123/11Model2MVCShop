@@ -6,9 +6,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- ///////////////////////////// 로그인시 Forward  /////////////////////////////////////// -->
-<c:if test="${ ! empty user }">
-	<jsp:forward page="/main.jsp" />
-</c:if>
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
@@ -40,13 +37,17 @@ body {
 
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 <script type="text/javascript">
-</script>
+	$(function() {
 
+		//alert("생성");
+		$("form").attr("method", "post").attr("action", "/product/mainProduct").submit();
+
+	});
+</script>
 </head>
 
 <body>
-	<jsp:include page="/layout/toolbar.jsp" />
-	
+	<form ></form>
 </body>
 
 </html>

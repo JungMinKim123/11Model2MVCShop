@@ -13,7 +13,7 @@ public interface ProductService {
 	public Product getProduct(int productNo) throws Exception;
 	
 	public Map<String, Object> getProductList(Search search) throws Exception;
-	
+
 	public void updateProduct(Product product) throws Exception;
 	
 	public void addFile(Product product) throws Exception;

@@ -46,7 +46,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			boolean result = false;
 
 			if (uri.indexOf("addUser") != -1 || uri.indexOf("login") != -1 || uri.indexOf("checkDuplication") != -1) {
-				request.getRequestDispatcher("/main.jsp").forward(request, response);
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
 				System.out.println("[ 로그인 상태.. 로그인 후 불필요 한 요구.... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				result = false;
@@ -65,7 +65,8 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 				if (uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1
 						|| uri.indexOf("addPurchase") != -1 || uri.indexOf("addPurchaseReadView") != -1
 						|| uri.indexOf("getUse") != -1 || uri.indexOf("updateUser") != -1
-						|| uri.indexOf("listPurchase") != -1 || uri.indexOf("logout") != -1) {
+						|| uri.indexOf("listPurchase") != -1 || uri.indexOf("logout") != -1
+						|| uri.indexOf("updateProduct") != -1 || uri.indexOf("mainProduct") != -1 || uri.indexOf("getProdName") != -1) {
 
 					System.out.println("[Uesr 로그인 상태 ... ]");
 					System.out.println("[ LogonCheckInterceptor end........]\n");
@@ -75,7 +76,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 
 				if ( uri.indexOf("addProduct") != -1 || uri.indexOf("updateProduct") != -1 ) {
 					
-					request.getRequestDispatcher("/main.jsp").forward(request, response);
+					request.getRequestDispatcher("/index.jsp").forward(request, response);
 					System.out.println("[Uesr 로그인 상태 ... ]");
 					System.out.println("[ LogonCheckInterceptor end........]\n");
 					result = false;
@@ -97,7 +98,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			}
 
-			if (uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1) {
+			if (uri.indexOf("listProduct") != -1 || uri.indexOf("getProduct") != -1 || uri.indexOf("mainProduct") != -1 || uri.indexOf("getProdName") != -1) {
 
 				System.out.println("[ 비회원 접근 가능 ... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
@@ -109,13 +110,13 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 						|| uri.indexOf("getUse") != -1 || uri.indexOf("updateUser") != -1
 						|| uri.indexOf("listPurchase") != -1  
 						|| uri.indexOf("addProduct") != -1 || uri.indexOf("updateProduct") != -1) {
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
+			request.getRequestDispatcher("/user/loginView.jsp").forward(request, response);
 			System.out.println("[ 비회원 접근 제한 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return false;
 			}
 			
-			request.getRequestDispatcher("/main.jsp").forward(request, response);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			System.out.println("[ 로그아웃 ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return false;

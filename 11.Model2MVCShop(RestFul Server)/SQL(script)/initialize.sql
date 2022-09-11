@@ -28,8 +28,7 @@ CREATE TABLE users (
 
 CREATE TABLE files ( 
 	prod_no 						NUMBER 				NOT NULL,
-	image_file 					VARCHAR2(100),
-	PRIMARY KEY(prod_no)
+	image_file 					VARCHAR2(100)
 );
 
 CREATE TABLE product ( 

@@ -149,7 +149,7 @@ public class ProductRestController {
 	@RequestMapping(value = "json/listProduct")
 	public Map<String, Object> listProduct(@RequestBody Search search) throws Exception{
 		
-		System.out.println("/product/json/product/listProduct : GET / POST");
+		System.out.println("/product/json/listProduct : GET / POST");
 		
 		if(search.getCurrentPage() == 0) {
 			search.setCurrentPage(1);

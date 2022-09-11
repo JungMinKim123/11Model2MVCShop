@@ -68,7 +68,9 @@ public class ProductController {
 				product.setFileName(file);
 			}
 		}
-
+		
+		product.setFirstfileName(file.get(0));
+		
 		String manuDate = product.getManuDate().replace("-", "");
 		product.setManuDate(manuDate);
 		System.out.println(manuDate);
@@ -129,9 +131,11 @@ public class ProductController {
 		/*
 		 * if (multipartFile.equals("")) { prod.setFileName(null); } //
 		 */
+		
 		List<String> file = new ArrayList<String>();
 
 		for (int i = 0; i < multipartFile.size(); i++) {
+
 
 			if (multipartFile.get(i) != null & multipartFile.get(i).getSize() > 0) {
 
@@ -139,6 +143,8 @@ public class ProductController {
 				file.add(multipartFile.get(i).getOriginalFilename());
 			}
 		}
+		
+		prod.setFirstfileName(file.get(0));
 
 		System.out.println("file에 들어온 값 : " + file);
 
@@ -169,7 +175,7 @@ public class ProductController {
 
 		return "forward:/product/updateProduct.jsp";
 	}
-
+	
 //	@RequestMapping("/listProduct.do")
 	@RequestMapping(value = "listProduct")
 	public String listProduct(@ModelAttribute("Search") Search search, Model model, @RequestParam("menu") String menu)
@@ -195,5 +201,30 @@ public class ProductController {
 		model.addAttribute("search", search);
 
 		return "forward:/product/productList.jsp";
+	}
+
+	@RequestMapping(value = "mainProduct")
+	public String mainProduct(@ModelAttribute("main") Search search, Model model)
+			throws Exception {
+		
+		System.out.println("/product/mainProduct : GET / POST");
+		
+		if (search.getCurrentPage() == 0) {
+			search.setCurrentPage(1);
+		}
+		
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = productService.getProductList(search);
+		
+		Page resultPage = new Page(search.getCurrentPage(), ((Integer) map.get("totalCount")).intValue(), pageUnit,
+				pageSize);
+		System.out.println(resultPage);
+		
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		
+		return "forward:../main.jsp";
 	}
 }
