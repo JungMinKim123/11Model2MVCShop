@@ -43,7 +43,7 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 			// ==> 로그인 상태에서 접근 불가 URI
 			String uri = request.getRequestURI();
 
-			boolean result = false;
+			boolean result = true;
 
 			if (uri.indexOf("addUser") != -1 || uri.indexOf("login") != -1 || uri.indexOf("checkDuplication") != -1) {
 				request.getRequestDispatcher("/index.jsp").forward(request, response);

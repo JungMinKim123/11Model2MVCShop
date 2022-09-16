@@ -125,6 +125,17 @@ public class UserController {
 		
 		return "redirect:/main.jsp";
 	}
+	
+	@RequestMapping( value="snsLogin", method=RequestMethod.POST )
+	public String snsLogin(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
+		
+		System.out.println("/user/login : POST");
+		//Business Logic
+		
+			session.setAttribute("user", user);
+		
+		return "redirect:/main.jsp";
+	}
 		
 	
 	@RequestMapping( value="logout", method=RequestMethod.GET )

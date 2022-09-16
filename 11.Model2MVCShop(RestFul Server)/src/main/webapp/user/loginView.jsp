@@ -17,19 +17,58 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
     	 body >  div.container{ 
-        	border: 3px solid #D6CDB7;
+        	border: 0;
+        	outline: 0;
             margin-top: 10px;
         }
+        
+        .button{
+      		border: 0;
+        	outline: 0;
+        }
+        
     </style>
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+	
+	 window.Kakao.init('59386325ca13cdc634dfe162b470c978');
+		
+	 function kakaoLogin() {
+         window.Kakao.Auth.login({
+             scope: 'profile_nickname, account_email, gender, age_range, birthday', //동의항목 페이지에 있는 개인정보 보호 테이블의 활성화된 ID값을 넣습니다.
+             success: function(response) {
+                 console.log(response) // 로그인 성공하면 받아오는 데이터
+                 window.Kakao.API.request({ // 사용자 정보 가져오기 
+                     url: '/v2/user/me',
+                     success: (res) => {
+                         const kakao_account = res.kakao_account;
+                         console.log(kakao_account)
+                         console.log(kakao_account.profile.nickname)
+                         var name = kakao_account.profile.nickname;
+                         $(".kakao").val(name);
+                         sessionStorage.setItem("user",kakao_account.profile.nickname);
+                         
+                         console.log(sessionStorage.getItem("user"));
+                         console.log($(".kakao").val());
+                     }
+                 });
+                 // window.location.href='/ex/kakao_login.html' //리다이렉트 되는 코드
+             },
+             fail: function(error) {
+                 console.log(error);
+             }
+         });
+         
+         $("form").attr("method","POST").attr("action","/user/snsLogin").attr("target","_parent").submit();
+     }
 
-		//============= "로그인"  Event 연결 =============
+	 //============= "로그인"  Event 연결 =============
 		$( function() {
 			
 			$("#userId").focus();
@@ -114,6 +153,13 @@
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
 					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					    </div>
+					  </div>
+
+					  <div class="form-group">
+					    <div class="col-sm-offset-4 col-sm-6 text-center">
+					       <a href="javascript:kakaoLogin();"><img src="/images/ko/kakao_login_medium_narrow.png" alt="카카오계정 로그인"/></a>
+					       <input type="hidden" class="kakao" name="userName" id="userName" value="" >
 					    </div>
 					  </div>
 		
