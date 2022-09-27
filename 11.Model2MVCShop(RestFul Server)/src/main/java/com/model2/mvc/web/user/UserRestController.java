@@ -1,6 +1,7 @@
 package com.model2.mvc.web.user;
 
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.model2.mvc.common.Page;
@@ -147,5 +149,25 @@ public class UserRestController {
 		map.put("resultPage", resultPage);
 		
 		return map;
+	}
+	
+	@RequestMapping(value = "json/sendSMS", method = RequestMethod.GET)
+	public @ResponseBody
+	String sendSMS(String phoneNumber) throws Exception {
+		
+		System.out.println("값 받음");
+		
+		Random rand = new Random();
+		String numStr = "";
+		for(int i=0; i<4; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			numStr += ran;
+		}
+		
+		System.out.println("수신자번호 : " + phoneNumber);
+		System.out.println("인증번호 : " + numStr);
+		userService.certifiedPhoneNumber(phoneNumber, numStr);
+		
+		return numStr;
 	}
 }
