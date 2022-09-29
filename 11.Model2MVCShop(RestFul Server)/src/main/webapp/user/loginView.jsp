@@ -17,9 +17,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	
+	<script type="text/javascript" src="/javascript/kakaoLogin.js"></script>
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
     	 body >  div.container{ 
@@ -36,7 +39,44 @@
     </style>
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	
+	 <script type="text/javascript">
+	  	
+	 //============= "로그인"  Event 연결 =============
+		$( function() {
+			
+			$("#userId").focus();
+			
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("button.btn.btn-primary").on("click" , function() {
+				var id=$("input:text").val();
+				var pw=$("input:password").val();
+				
+				if(id == null || id.length <1) {
+					alert('ID 를 입력하지 않으셨습니다.');
+					$("#userId").focus();
+					return;
+				}
+				
+				if(pw == null || pw.length <1) {
+					alert('패스워드를 입력하지 않으셨습니다.');
+					$("#password").focus();
+					return;
+				}
+				
+				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			});
+		});	
+		
+		
+		//============= 회원원가입화면이동 =============
+		$( function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("a[href='#' ]").on("click" , function() {
+				self.location = "/user/addUser"
+			});
+		});
+		
+	</script>	
 	
 </head>
 
@@ -91,7 +131,7 @@
 
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					       <a href="javascript:kakaoLogin();"><img src="/images/ko/kakao_login_medium_narrow.png" alt="카카오계정 로그인"/></a>
+					       <button class="button" type="button" onclick="kakaoLogin();"><img src="/images/ko/kakao_login_medium_narrow.png" alt="카카오계정 로그인"/></button>
 					       <input type="hidden" class="kakao" name="userName" id="userName" value="" >
 					    </div>
 					  </div>
@@ -104,103 +144,10 @@
 							</div>
 					    </div>
 					  </div>
-		<script type="text/javascript">
-	
-	 window.Kakao.init('59386325ca13cdc634dfe162b470c978');
-		
-	 function kakaoLogin() {
-         window.Kakao.Auth.login({
-             scope: 'profile_nickname, account_email, gender, age_range, birthday', //동의항목 페이지에 있는 개인정보 보호 테이블의 활성화된 ID값을 넣습니다.
-             success: function(response) {
-                 console.log(response) // 로그인 성공하면 받아오는 데이터
-                 window.Kakao.API.request({ // 사용자 정보 가져오기 
-                     url: '/v2/user/me',
-                     success: (res) => {
-                         const kakao_account = res.kakao_account;
-                         console.log(kakao_account)
-                         console.log(kakao_account.profile.nickname)
-                         var name = kakao_account.profile.nickname;
-                         $(".kakao").val(name);
-                         sessionStorage.setItem("user",kakao_account.profile.nickname);
-                         
-                         console.log(sessionStorage.getItem("user"));
-                         console.log($(".kakao").val());
-                     }
-                 });
-                 // window.location.href='/ex/kakao_login.html' //리다이렉트 되는 코드
-             },
-             fail: function(error) {
-                 console.log(error);
-             }
-         });
-         
-        // $("form").attr("method","POST").attr("action","/user/snsLogin").attr("target","_parent").submit();
-     }
-	 	
-	 var clientId = "Ml9RKhaCexgFbiAJLp0cID"
-		    var callbackUrl = "http://127.0.0.1:8080/user/loginView.jsp"
-		    
-			var naverLogin = new naver.LoginWithNaverId({
-				 clientId: clientId,
-				 callbackUrl: callbackUrl,
-				 isPopup: true,
-				 loginButton: {color: "green", type: 3, height: 50}		 
-			});
-	 
-			var naver_id_login = new naver_id_login("Ml9RKhaCexgFbiAJLp0c", "http://127.0.0.1:8080/user/loginView.jsp");
-		  	var state = naver_id_login.getUniqState();
-		  	naver_id_login.setButton("white", 2,40);
-		  	naver_id_login.setDomain("http://http://127.0.0.1:8080/");
-		  	naver_id_login.setState(state);
-		  	naver_id_login.init_naver_id_login();
-		  	console.log(naver_id_login);
-	  		
-		  	naver_id_login.get_naver_userprofile("naverSignInCallback()");
-		  	function naverSignInCallback() {
-		  	   console.log(naver_id_login.getProfileData('email'))
-		  	   console.log(naver_id_login.getProfileData('name'))
-		  	   console.log(naver_id_login.getProfileData('gender'))
-		  	  }
-	  	
-	 //============= "로그인"  Event 연결 =============
-		$( function() {
-			
-			$("#userId").focus();
-			
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("button").on("click" , function() {
-				var id=$("input:text").val();
-				var pw=$("input:password").val();
-				
-				if(id == null || id.length <1) {
-					alert('ID 를 입력하지 않으셨습니다.');
-					$("#userId").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("#password").focus();
-					return;
-				}
-				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-			});
-		});	
-		
-		
-		//============= 회원원가입화면이동 =============
-		$( function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
-				self.location = "/user/addUser"
-			});
-		});
-		
-	</script>		
+					<script type="text/javascript" src="/javascript/naverLogin.js"></script>
 					</form>
 			   	 </div>
-			
+				
 			</div>
 			
   	 	</div>
