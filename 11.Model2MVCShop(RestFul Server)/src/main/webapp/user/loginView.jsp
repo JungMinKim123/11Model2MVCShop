@@ -36,100 +36,7 @@
     </style>
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	<script type="text/javascript">
 	
-	 window.Kakao.init('59386325ca13cdc634dfe162b470c978');
-		
-	 function kakaoLogin() {
-         window.Kakao.Auth.login({
-             scope: 'profile_nickname, account_email, gender, age_range, birthday', //동의항목 페이지에 있는 개인정보 보호 테이블의 활성화된 ID값을 넣습니다.
-             success: function(response) {
-                 console.log(response) // 로그인 성공하면 받아오는 데이터
-                 window.Kakao.API.request({ // 사용자 정보 가져오기 
-                     url: '/v2/user/me',
-                     success: (res) => {
-                         const kakao_account = res.kakao_account;
-                         console.log(kakao_account)
-                         console.log(kakao_account.profile.nickname)
-                         var name = kakao_account.profile.nickname;
-                         $(".kakao").val(name);
-                         sessionStorage.setItem("user",kakao_account.profile.nickname);
-                         
-                         console.log(sessionStorage.getItem("user"));
-                         console.log($(".kakao").val());
-                     }
-                 });
-                 // window.location.href='/ex/kakao_login.html' //리다이렉트 되는 코드
-             },
-             fail: function(error) {
-                 console.log(error);
-             }
-         });
-         
-         $("form").attr("method","POST").attr("action","/user/snsLogin").attr("target","_parent").submit();
-     }
-	 	
-	 var clientId = "Ml9RKhaCexgFbiAJLp0cID"
-		    var callbackUrl = "http://192.168.0.183:8080/"
-		    
-		    ...
-		    
-			var naverLogin = new naver.LoginWithNaverId({
-				 clientId: clientId,
-				 callbackUrl: callbackUrl,
-				 isPopup: true,
-				 loginButton: {color: "green", type: 3, height: 50}		 
-			});
-	 
-	 function naverLogin() {
-			alert("safd");
-			var naver_id_login = new naver_id_login("Ml9RKhaCexgFbiAJLp0c", "http://192.168.0.183:8080/");
-		  	var state = naver_id_login.getUniqState();
-		  	naver_id_login.setButton("white", 2,40);
-		  	naver_id_login.setDomain("http://192.168.0.183:8080/");
-		  	naver_id_login.setState(state);
-		  	naver_id_login.setPopup();
-		  	naver_id_login.init_naver_id_login();
-		});
-	});
-	  
-	  	
-	 //============= "로그인"  Event 연결 =============
-		$( function() {
-			
-			$("#userId").focus();
-			
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("button").on("click" , function() {
-				var id=$("input:text").val();
-				var pw=$("input:password").val();
-				
-				if(id == null || id.length <1) {
-					alert('ID 를 입력하지 않으셨습니다.');
-					$("#userId").focus();
-					return;
-				}
-				
-				if(pw == null || pw.length <1) {
-					alert('패스워드를 입력하지 않으셨습니다.');
-					$("#password").focus();
-					return;
-				}
-				
-				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
-			});
-		});	
-		
-		
-		//============= 회원원가입화면이동 =============
-		$( function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$("a[href='#' ]").on("click" , function() {
-				self.location = "/user/addUser"
-			});
-		});
-		
-	</script>		
 	
 </head>
 
@@ -192,12 +99,105 @@
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
 					    <div id="naver_id_login">
-						   <a id="naverIdLogin_loginButton" href="javascript:naverLogin();">
+						   <a id="naverIdLogin_loginButton" href="#">
 							<img src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1" height="50"></a>
 							</div>
 					    </div>
 					  </div>
+		<script type="text/javascript">
+	
+	 window.Kakao.init('59386325ca13cdc634dfe162b470c978');
 		
+	 function kakaoLogin() {
+         window.Kakao.Auth.login({
+             scope: 'profile_nickname, account_email, gender, age_range, birthday', //동의항목 페이지에 있는 개인정보 보호 테이블의 활성화된 ID값을 넣습니다.
+             success: function(response) {
+                 console.log(response) // 로그인 성공하면 받아오는 데이터
+                 window.Kakao.API.request({ // 사용자 정보 가져오기 
+                     url: '/v2/user/me',
+                     success: (res) => {
+                         const kakao_account = res.kakao_account;
+                         console.log(kakao_account)
+                         console.log(kakao_account.profile.nickname)
+                         var name = kakao_account.profile.nickname;
+                         $(".kakao").val(name);
+                         sessionStorage.setItem("user",kakao_account.profile.nickname);
+                         
+                         console.log(sessionStorage.getItem("user"));
+                         console.log($(".kakao").val());
+                     }
+                 });
+                 // window.location.href='/ex/kakao_login.html' //리다이렉트 되는 코드
+             },
+             fail: function(error) {
+                 console.log(error);
+             }
+         });
+         
+        // $("form").attr("method","POST").attr("action","/user/snsLogin").attr("target","_parent").submit();
+     }
+	 	
+	 var clientId = "Ml9RKhaCexgFbiAJLp0cID"
+		    var callbackUrl = "http://127.0.0.1:8080/user/loginView.jsp"
+		    
+			var naverLogin = new naver.LoginWithNaverId({
+				 clientId: clientId,
+				 callbackUrl: callbackUrl,
+				 isPopup: true,
+				 loginButton: {color: "green", type: 3, height: 50}		 
+			});
+	 
+			var naver_id_login = new naver_id_login("Ml9RKhaCexgFbiAJLp0c", "http://127.0.0.1:8080/user/loginView.jsp");
+		  	var state = naver_id_login.getUniqState();
+		  	naver_id_login.setButton("white", 2,40);
+		  	naver_id_login.setDomain("http://http://127.0.0.1:8080/");
+		  	naver_id_login.setState(state);
+		  	naver_id_login.init_naver_id_login();
+		  	console.log(naver_id_login);
+	  		
+		  	naver_id_login.get_naver_userprofile("naverSignInCallback()");
+		  	function naverSignInCallback() {
+		  	   console.log(naver_id_login.getProfileData('email'))
+		  	   console.log(naver_id_login.getProfileData('name'))
+		  	   console.log(naver_id_login.getProfileData('gender'))
+		  	  }
+	  	
+	 //============= "로그인"  Event 연결 =============
+		$( function() {
+			
+			$("#userId").focus();
+			
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("button").on("click" , function() {
+				var id=$("input:text").val();
+				var pw=$("input:password").val();
+				
+				if(id == null || id.length <1) {
+					alert('ID 를 입력하지 않으셨습니다.');
+					$("#userId").focus();
+					return;
+				}
+				
+				if(pw == null || pw.length <1) {
+					alert('패스워드를 입력하지 않으셨습니다.');
+					$("#password").focus();
+					return;
+				}
+				
+				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
+			});
+		});	
+		
+		
+		//============= 회원원가입화면이동 =============
+		$( function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("a[href='#' ]").on("click" , function() {
+				self.location = "/user/addUser"
+			});
+		});
+		
+	</script>		
 					</form>
 			   	 </div>
 			
