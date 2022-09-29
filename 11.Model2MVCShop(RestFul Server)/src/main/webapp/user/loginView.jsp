@@ -11,6 +11,7 @@
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="google-signin-client_id" content="468321672994-gb6ft04ekgn7i2hamdhd6jvjt7le2960.apps.googleusercontent.com">
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -21,6 +22,7 @@
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer ></script>
 	
 	<script type="text/javascript" src="/javascript/kakaoLogin.js"></script>
 	<!--  ///////////////////////// CSS ////////////////////////// -->
@@ -76,6 +78,18 @@
 			});
 		});
 		
+		function onSignIn(googleUser) {
+			  alert("asd");
+			  var profile = googleUser.getBasicProfile();
+//			  var profile = googleUser;
+			  alert("asd");
+			  console.log(profile);
+			  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+			  console.log('Name: ' + profile.getName());
+			  console.log('Image URL: ' + profile.getImageUrl());
+			  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+			}
+		
 	</script>	
 	
 </head>
@@ -126,6 +140,12 @@
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
 					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					    </div>
+					  </div>
+
+					  <div class="form-group">
+					    <div class="col-sm-offset-4 col-sm-6 text-center">
+					      <div class="g-signin2" data-onsuccess="onSignIn" ></div>
 					    </div>
 					  </div>
 
