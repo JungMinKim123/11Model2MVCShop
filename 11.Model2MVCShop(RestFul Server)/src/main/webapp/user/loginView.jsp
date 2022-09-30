@@ -11,7 +11,6 @@
 	
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="google-signin-client_id" content="468321672994-gb6ft04ekgn7i2hamdhd6jvjt7le2960.apps.googleusercontent.com">
 	
 	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
@@ -22,8 +21,8 @@
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script src="https://apis.google.com/js/platform.js" async defer ></script>
-	
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	    
 	<script type="text/javascript" src="/javascript/kakaoLogin.js"></script>
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -42,7 +41,6 @@
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	 <script type="text/javascript">
-	  	
 	 //============= "로그인"  Event 연결 =============
 		$( function() {
 			
@@ -78,9 +76,12 @@
 			});
 		});
 		
-		function onSignIn(googleUser) {
+	 /* 
+		function onSignIn(response) {
 			  alert("asd");
-			  var profile = googleUser.getBasicProfile();
+			  console.log("Encoded JWT ID token: " + response.credential);
+        }
+			  var profile = decodeJwtResponse(response.credential);
 //			  var profile = googleUser;
 			  alert("asd");
 			  console.log(profile);
@@ -89,9 +90,8 @@
 			  console.log('Image URL: ' + profile.getImageUrl());
 			  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 			}
-		
+		*/
 	</script>	
-	
 </head>
 
 <body>
@@ -145,8 +145,12 @@
 
 					  <div class="form-group">
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
-					      <div class="g-signin2" data-onsuccess="onSignIn" ></div>
+					      <div id="g_id_onload"
+         data-client_id="468321672994-gb6ft04ekgn7i2hamdhd6jvjt7le2960.apps.googleusercontent.com"
+         data-callback="onSignIn">
 					    </div>
+					     <div class="g_id_signin" data-type="standard"></div>
+					  </div>
 					  </div>
 
 					  <div class="form-group">
